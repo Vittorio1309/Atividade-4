@@ -24,6 +24,12 @@ public class TarefaService {
         return tarefaRepository.findAll();
     }
 
+    public List<Tarefa> listarPendentes() {
+        return tarefaRepository.findAll().stream().filter(tarefa -> !tarefa.getConcluida()).toList();
+    }
+
+    public List<Tarefa> listarConcluidos() { return tarefaRepository.findAll().stream().filter(tarefa -> tarefa.getConcluida()).toList();}
+
     public Optional<Tarefa> buscarPorId(Long id) {
         return tarefaRepository.findById(id);
     }
