@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Alunos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 14px;
+            text-decoration: none;
+            border-radius: 6px;
+            color: white;
+            background-color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        .acoes a {
+            margin-right: 10px;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .mensagem-vazia {
+            margin-top: 20px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Cadastro de Alunos</h1>
+
+    <a th:href="@{/alunos/novo}" class="btn">Novo Aluno</a>
+
+    <div th:if="${#lists.isEmpty(alunos)}" class="mensagem-vazia">
+        <p>Nenhum aluno cadastrado.</p>
+    </div>
+
+    <table th:if="${!#lists.isEmpty(alunos)}">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Matrícula</th>
+            <th>Curso</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="aluno : ${alunos}">
+            <td th:text="${aluno.id}"></td>
+            <td th:text="${aluno.nome}"></td>
+            <td th:text="${aluno.email}"></td>
+            <td th:text="${aluno.matricula}"></td>
+            <td th:text="${aluno.curso}"></td>
+            <td class="acoes">
+                <a th:href="@{/alunos/editar/{id}(id=${aluno.id})}">Editar</a>
+                <a th:href="@{/alunos/excluir/{id}(id=${aluno.id})}"
+                   onclick="return confirm('Tem certeza que deseja excluir este aluno?')">Excluir</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
