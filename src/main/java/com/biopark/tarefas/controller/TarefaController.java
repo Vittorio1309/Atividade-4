@@ -20,11 +20,19 @@ public class TarefaController {
     }
 
     @GetMapping
-    public String listar(@RequestParam(required=false) String filtro ,Model model) {
-        if ("pendentes".equals(filtro)){ model.addAttribute("tarefas", tarefaService.listarPendentes());}
-       else if("concluidas".equals(filtro))
-       { model.addAttribute("tarefas", tarefaService.listarConcluidos());}
-       else {model.addAttribute("tarefas", tarefaService.listarTodas());}
+    public String listar(@RequestParam(required = false) String filtro, Model model) {
+        if ("pendentes".equals(filtro)) {
+            model.addAttribute("tarefas", tarefaService.listarPendentes());
+        } else if ("concluidas".equals(filtro)) {
+            model.addAttribute("tarefas", tarefaService.listarConcluidos());
+        } else {
+            model.addAttribute("tarefas", tarefaService.listarTodas());
+        }
+
+        model.addAttribute("quantidadeTotal", tarefaService.quantidadeTotal());
+        model.addAttribute("quantidadePendentes", tarefaService.quantidadePendentes());
+        model.addAttribute("quantidadeConcluidas", tarefaService.quantidadeConcluidas());
+
         return "tarefas/lista";
     }
 
@@ -55,7 +63,6 @@ public class TarefaController {
 
         boolean isNova = tarefa.getId() == null;
 
-        // Se estiver editando, preservar a data de criação original
         if (!isNova) {
             tarefaService.buscarPorId(tarefa.getId()).ifPresent(existente -> {
                 tarefa.setDataCriacao(existente.getDataCriacao());

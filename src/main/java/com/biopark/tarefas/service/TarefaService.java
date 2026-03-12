@@ -28,16 +28,22 @@ public class TarefaService {
         return tarefaRepository.findAll().stream().filter(tarefa -> !tarefa.getConcluida()).toList();
     }
 
-    public long quantidadeTotal(){
-        return tarefaRepository.findAll().stream().count();
+    public long quantidadeTotal() {
+        return tarefaRepository.findAll().size();
     }
 
-    public long quantidadeConcluidas(){
-        return tarefaRepository.findAll().stream().filter(tarefa -> tarefa.getConcluida()).count();
+    public long quantidadeConcluidas() {
+        return tarefaRepository.findAll()
+                .stream()
+                .filter(tarefa -> Boolean.TRUE.equals(tarefa.getConcluida()))
+                .count();
     }
 
-    public long quantidadePendentes(){
-        return tarefaRepository.findAll().stream().filter(tarefa -> !tarefa.getConcluida()).count();
+    public long quantidadePendentes() {
+        return tarefaRepository.findAll()
+                .stream()
+                .filter(tarefa -> Boolean.FALSE.equals(tarefa.getConcluida()))
+                .count();
     }
 
     public List<Tarefa> listarConcluidos() { return tarefaRepository.findAll().stream().filter(tarefa -> tarefa.getConcluida()).toList();}
